@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Music Manager</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/hammerjs/hammer.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.js"></script>
+    <script type="text/javascript" src="organize.js"></script>
+    <style>
+    .btn-small {
+        height: 24px;
+        line-height: 24px;
+        padding: 0 0.5rem;
+    }
+
+    .no-uppercase {
+        text-transform: none;
+    }
+
+    .waves-effect.waves-dark .waves-ripple {
+        background-color: rgba(255, 255, 255, 0.65);
+    }
+
+    .nanobar {
+        width: 100%;
+        height: 4px;
+        z-index: 9999;
+        top: 0
+    }
+
+    .bar {
+        width: 0;
+        height: 100%;
+        transition: height .3s;
+        background: #9c27b0;
+    }
+
+    .purple:checked+label:before {
+        top: -4px;
+        left: -3px;
+        width: 12px;
+        height: 22px;
+        border-top: 2px solid transparent;
+        border-left: 2px solid transparent;
+        border-right: 2px solid #9c27b0;
+        /* You need to change the colour here */
+        border-bottom: 2px solid #9c27b0;
+        /* And here */
+        -webkit-transform: rotate(40deg);
+        -moz-transform: rotate(40deg);
+        -ms-transform: rotate(40deg);
+        -o-transform: rotate(40deg);
+        transform: rotate(40deg);
+        -webkit-backface-visibility: hidden;
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+    }
+
+    .tabs .tab a {
+        color: #9c27b0;
+    }
+    /*Black color to the text*/
+
+    .tabs .tab a:hover {
+        color: #9c27b0;
+    }
+    /*Text color on hover*/
+
+    .tabs .tab a.active {
+        color: #9c27b0;
+    }
+    /*Background and text color when a tab is active*/
+
+    .tabs .indicator {
+        background-color: #9c27b0;
+    }
+    .lineUp {
+    	display: inline-block; 
+    	margin: 5px 5px 5px 5px;
+    }
+    /*Color of underline*/
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center">
+                <h2>Music Manager</h2>
+                <ul class="tabs" style="z-index: 9999;">
+                    <li class="tab"><a class="active" href="#duplicates">Duplicates</a></li>
+                    <li class="tab"><a href="#organizer">Organizer</a></li>
+                </ul>
+                <div id="duplicates">
+                    <div class="file-field input-field">
+                        <div class="btn purple waves-effect waves-light hoverable" id="folder-opener" onclick="getDirectory();">
+                            <span>File</span>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate hoverable" id="text-path" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
+                        </div>
+                    </div>
+                    <h4>Criteria</h4>
+                    <div class="" style="display: inline-block;">
+                        Filetypes
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="mp3" />
+                            <label for="mp3">MP3</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="m4a" />
+                            <label for="m4a">M4A</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="wav" />
+                            <label for="wav">WAV</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="mp4" />
+                            <label for="mp4">MP4</label>
+                        </p>
+                    </div>
+                    <br>
+                    <br>
+                    <a onclick="checkFileTypes();" class="btn btn-large purple waves-effect waves-light hoverable">Search for matches</a>
+                    <br>
+                    <br>
+                    <hr>
+                    <br>
+                    <a onclick="$('#matches').modal('open');" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
+                </div>
+                <div id="organizer" style="display: none">
+                    <div class="file-field input-field">
+                        <div class="btn purple waves-effect waves-light hoverable" onclick="getDirectory();">
+                            <span>Folder</span>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" placeholder="Folder to organize" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
+                        </div>
+                    </div>
+                    <div class="file-field input-field">
+                        <div class="btn purple waves-effect waves-light hoverable" onclick="getOrgDirectory();">
+                            <span>Folder</span>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" placeholder="Folder to deposit organized files in. (This should be an empty folder)" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
+                        </div>
+                    </div>
+                    <h4>Folder Setup</h4>
+                    <div>
+                        Filetypes
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="mp31" />
+                            <label for="mp31">MP3</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="m4a1" />
+                            <label for="m4a1">M4A</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="wav1" />
+                            <label for="wav1">WAV</label>
+                        </p>
+                        <p>
+                            <input type="checkbox" class="purple hoverable" id="mp41" />
+                            <label for="mp41">MP4</label>
+                        </p>
+                    </div>
+                    <div>
+                        Folders
+                        <p>
+						<input type="checkbox" class="purple hoverable" id="author" />
+                        <label for="author" class="lineUp">Author 📁 ></label>
+                        <input type="checkbox" class="purple hoverable" id="album" />
+                        <label for="album" class="lineUp">Album 📁 ></label>
+                        <input type="checkbox" class="purple hoverable" id="other" />
+                        <label for="other" class="lineUp">Other</label>
+                        <input type="checkbox" class="purple hoverable" id="other" />
+                        <label for="other" class="lineUp">Other</label>
+                        </p>
+                    </div>
+                    <br>
+                    <br>
+                    <a onclick="checkFileTypes();" class="btn btn-large purple waves-effect waves-light hoverable">Search for matches</a>
+                    <br>
+                    <br>
+                    <hr>
+                    <br>
+                    <a onclick="$('#matches').modal('open');" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-fixed-footer" id="matches" style="width: 90%; height: 75%">
+            <div class="modal-content" style="padding: 6px 6px 6px 6px;">
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Album</th>
+                            <th>Path</th>
+                            <th>
+                                <input type="checkbox" class="filled-in purple" id="delete-all" onclick="checkAllForDelete();" />
+                                <label for="delete-all" class="text-black">Delete</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="file-table-body">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect btn-flat ">Close</a>
+                <a class="modal-action red waves-effect btn-flat white-text waves-light" id="delete-btn">Delete 0 Files</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <br>
+        <br>
+    </footer>
+    <script type="text/javascript">
+    $('.modal').modal();
+    $('#mp3').prop('checked', true);
+    var options = {
+        classname: '',
+        id: 'nano-bar',
+    };
+    var nanobar = new Nanobar(options);
+    </script>
+</body>
+
+</html>
