@@ -6,9 +6,11 @@
     <meta charset="utf-8" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" href="node_modules/jstree/dist/themes/default/style.min.css" />
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/hammerjs/hammer.min.js"></script>
     <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.js"></script>
+    <script type="text/javascript" src="node_modules/jstree/dist/jstree.min.js"></script>
     <script type="text/javascript" src="organize.js"></script>
     <style>
     .btn-small {
@@ -81,9 +83,10 @@
     .tabs .indicator {
         background-color: #9c27b0;
     }
+
     .lineUp {
-    	display: inline-block; 
-    	margin: 5px 5px 5px 5px;
+        display: inline-block;
+        margin: 10px 10px 10px 10px;
     }
     /*Color of underline*/
     </style>
@@ -94,7 +97,7 @@
         <div class="row">
             <div class="col s12 center">
                 <h2>Music Manager</h2>
-                <ul class="tabs" style="z-index: 9999;">
+                <ul class="tabs" id="menubar" style="z-index: 9999;">
                     <li class="tab"><a class="active" href="#duplicates">Duplicates</a></li>
                     <li class="tab"><a href="#organizer">Organizer</a></li>
                 </ul>
@@ -134,7 +137,7 @@
                     <br>
                     <hr>
                     <br>
-                    <a onclick="$('#matches').modal('open');" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
+                    <a onclick="openMatches();" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
                 </div>
                 <div id="organizer" style="display: none">
                     <div class="file-field input-field">
@@ -142,7 +145,7 @@
                             <span>Folder</span>
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" placeholder="Folder to organize" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
+                            <input class="file-path validate" placeholder="Folder to organize" id="folder-path" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
                         </div>
                     </div>
                     <div class="file-field input-field">
@@ -150,11 +153,11 @@
                             <span>Folder</span>
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" placeholder="Folder to deposit organized files in. (This should be an empty folder)" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
+                            <input class="file-path validate" placeholder="Folder to deposit organized files in. (This should be an empty folder)" id="folder-path2" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
                         </div>
                     </div>
                     <h4>Folder Setup</h4>
-                    <div>
+                    <div class="" style="display: inline-block;">
                         Filetypes
                         <p>
                             <input type="checkbox" class="purple hoverable" id="mp31" />
@@ -174,26 +177,110 @@
                         </p>
                     </div>
                     <div>
-                        Folders
-                        <p>
-						<input type="checkbox" class="purple hoverable" id="author" />
-                        <label for="author" class="lineUp">Author 📁 ></label>
-                        <input type="checkbox" class="purple hoverable" id="album" />
-                        <label for="album" class="lineUp">Album 📁 ></label>
-                        <input type="checkbox" class="purple hoverable" id="other" />
-                        <label for="other" class="lineUp">Other</label>
-                        <input type="checkbox" class="purple hoverable" id="other" />
-                        <label for="other" class="lineUp">Other</label>
+                        <p>Organization Options</p>
+                        <p style="display: inline-block; padding-left: 0px; padding-right: 50px;">
+                            <input type="checkbox" class="purple hoverable" onclick="option1();" id="option1" />
+                            <label for="option1" class="lineUp">Option 1 📁 (Recommended)</label>
                         </p>
+                        <p style="display: inline-block; padding-left: 10px; padding-right: 75px;">
+                            <input type="checkbox" class="purple hoverable" onclick="option2();"  id="option2" />
+                            <label for="option2" class="lineUp">Option 2 📁 (Album Organization)</label>
+                        </p>
+                        <p style="display: inline-block; padding-left: 0px; padding-right: 20px;">
+                            <input type="checkbox" class="purple hoverable" onclick="option3();" id="option3" />
+                            <label for="option3" class="lineUp">Option 3 📁 (No Organization)</label>
+                        </p>
+                        <br>
+                        <div class="card medium" style="width: 250px; height: 220px; display: inline-block; margin-left: 20px; margin-right: 20px; padding: none">
+                            <div class="card-content left">
+                                <div class="fileTree">
+                                    <ul>
+                                        <li> Main folder
+                                            <ul>
+                                                <li>Artist1
+                                                    <ul>
+                                                        <li>Album1
+                                                            <ul>
+                                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoAlbumFile.mp3
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>Artist2
+                                                </li>
+                                                <li>Unknown Files
+                                                    <ul>
+                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoArtistFile.mp3
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card medium" style="width: 300px; height: 220px; display: inline-block; margin: 20px 20px 20px 20px; padding: none">
+                            <div class="card-content left">
+                                <div class="fileTree">
+                                    <ul>
+                                        <li> Main folder
+                                            <ul>
+                                                <li>Album1
+                                                    <ul>
+                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>Album2
+                                                </li>
+                                                <li>Unknown Files
+                                                    <ul>
+                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoAlbumFile.mp3
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card medium" style="width: 300px; height: 220px; display: inline-block; margin: 20px 20px 20px 20px; padding: none">
+                            <div class="card-content left">
+                                <div class="fileTree">
+                                    <ul>
+                                        <li> Main folder
+                                            <ul>
+                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <br>
-                    <a onclick="checkFileTypes();" class="btn btn-large purple waves-effect waves-light hoverable">Search for matches</a>
+                    <a onclick="organizeFiles();" class="btn btn-large purple waves-effect waves-light hoverable">Organize Files</a>
                     <br>
                     <br>
                     <hr>
                     <br>
-                    <a onclick="$('#matches').modal('open');" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
                 </div>
             </div>
         </div>
@@ -218,7 +305,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect btn-flat ">Close</a>
+                <a class="modal-action modal-close waves-effect btn-flat" onclick="$('#menubar').prop('style', 'display: inline;');">Close</a>
                 <a class="modal-action red waves-effect btn-flat white-text waves-light" id="delete-btn">Delete 0 Files</a>
             </div>
         </div>
@@ -228,6 +315,7 @@
         <br>
     </footer>
     <script type="text/javascript">
+    $('#match-btn').prop('disabled', true);
     $('.modal').modal();
     $('#mp3').prop('checked', true);
     var options = {
@@ -235,6 +323,13 @@
         id: 'nano-bar',
     };
     var nanobar = new Nanobar(options);
+    $(function() {
+        $('.fileTree').jstree();
+    });
+    function openMatches() {
+        $('#menubar').prop('style', 'display: none;');
+        $('#matches').modal('open');  
+    }
     </script>
 </body>
 
