@@ -19,15 +19,14 @@
   },
   "homepage": "https://github.com/Unicorn808/itunes-organizer#readme",
   "dependencies": {
-    "hammerjs": "latest",
-    "jquery": "latest",
-    "materialize-css": "latest",
-    "materialize-js": "latest",
-    "simplebar": "^2.4.3"
+    "jquery": "^3.4.1",
+    "materialize-css": "^1.0.0",
+    "music-metadata": "^4.8.2",
+    "nanobar": "^0.4.2"
   },
   "devDependencies": {
     "electron": "latest",
-    "electron-builder": "^19.19.1",
+    "electron-builder": "^19.56.2",
     "electron-builder-squirrel-windows": "^19.20.0"
   },
   "build": {

@@ -1,336 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Music Manager</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
-    <link rel="stylesheet" href="node_modules/jstree/dist/themes/default/style.min.css" />
-    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="node_modules/hammerjs/hammer.min.js"></script>
-    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.js"></script>
-    <script type="text/javascript" src="node_modules/jstree/dist/jstree.min.js"></script>
-    <script type="text/javascript" src="organize.js"></script>
+    <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"
+          media="screen,projection"/>
+    <script type="text/javascript" src="./organize.js"></script>
     <style>
-    .btn-small {
-        height: 24px;
-        line-height: 24px;
-        padding: 0 0.5rem;
-    }
+        .btn-small {
+            height: 24px;
+            line-height: 24px;
+            padding: 0 0.5rem;
+        }
 
-    .no-uppercase {
-        text-transform: none;
-    }
+        body {
+            background-color: white;
+        }
 
-    .waves-effect.waves-dark .waves-ripple {
-        background-color: rgba(255, 255, 255, 0.65);
-    }
+        .no-uppercase {
+            text-transform: none;
+        }
 
-    .nanobar {
-        width: 100%;
-        height: 4px;
-        z-index: 9999;
-        top: 0
-    }
+        .m4pes-effect.m4pes-dark .m4pes-ripple {
+            background-color: rgba(255, 255, 255, 0.65);
+        }
 
-    .bar {
-        width: 0;
-        height: 100%;
-        transition: height .3s;
-        background: #9c27b0;
-    }
+        .nanobar {
+            width: 100%;
+            height: 4px;
+            z-index: 9999;
+            top: 0
+        }
 
-    .purple:checked+label:before {
-        top: -4px;
-        left: -3px;
-        width: 12px;
-        height: 22px;
-        border-top: 2px solid transparent;
-        border-left: 2px solid transparent;
-        border-right: 2px solid #9c27b0;
-        /* You need to change the colour here */
-        border-bottom: 2px solid #9c27b0;
-        /* And here */
-        -webkit-transform: rotate(40deg);
-        -moz-transform: rotate(40deg);
-        -ms-transform: rotate(40deg);
-        -o-transform: rotate(40deg);
-        transform: rotate(40deg);
-        -webkit-backface-visibility: hidden;
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
-    }
+        .bar {
+            width: 0;
+            height: 100%;
+            background: #9c27b0;
+        }
 
-    .tabs .tab a {
-        color: #9c27b0;
-    }
-    /*Black color to the text*/
+        .purple:checked + label:before {
+            border-right: 2px solid #9c27b0;
+            /* You need to change the colour here */
+            border-bottom: 2px solid #9c27b0;
+        }
 
-    .tabs .tab a:hover {
-        color: #9c27b0;
-    }
-    /*Text color on hover*/
+        .tabs .tab a {
+            color: #9c27b0;
+        }
 
-    .tabs .tab a.active {
-        color: #9c27b0;
-    }
-    /*Background and text color when a tab is active*/
+        /*Black color to the text*/
 
-    .tabs .indicator {
-        background-color: #9c27b0;
-    }
+        .tabs .tab a:hover {
+            color: #9c27b0;
+        }
 
-    .lineUp {
-        display: inline-block;
-        margin: 10px 10px 10px 10px;
-    }
-    /*Color of underline*/
+        /*Text color on hover*/
+
+        .tabs .tab a.active {
+            color: #9c27b0;
+        }
+
+        /*Background and text color when a tab is active*/
+
+        .tabs .indicator {
+            background-color: #9c27b0;
+        }
+
+        .lineUp {
+            display: inline-block;
+            margin: 10px 10px 10px 10px;
+        }
+
+        td {
+            height: 80px;
+        }
+        th {
+            cursor: pointer;
+        }
+        .hoverable {
+            transition: .3s all;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col s12 center">
-                <h2>Music Manager</h2>
-                <ul class="tabs" id="menubar" style="z-index: 9999;">
-                    <li class="tab"><a class="active" href="#duplicates">Duplicates</a></li>
-                    <li class="tab"><a href="#organizer">Organizer</a></li>
-                </ul>
-                <div id="duplicates">
-                    <div class="file-field input-field">
-                        <div class="btn purple waves-effect waves-light hoverable" id="folder-opener" onclick="getDirectory();">
-                            <span>File</span>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate hoverable" id="text-path" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
-                        </div>
+<div class="container">
+    <div class="row">
+        <div class="col s12 center">
+            <h2>Music Manager</h2>
+            <ul class="tabs" id="menubar" style="z-index: 9999;">
+                <li class="tab"><a href="#duplicates">Duplicates</a></li>
+                <li class="tab"><a href="#organizer">Organizer</a></li>
+            </ul>
+            <div id="duplicates">
+                <div class="file-field input-field">
+                    <div class="btn purple m4pes-effect m4pes-light hoverable" id="folder-opener"
+                         onclick="getDupDirectory();">
+                        <span>Folder</span>
                     </div>
-                    <h4>Criteria</h4>
-                    <div class="" style="display: inline-block;">
-                        Filetypes
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="mp3" />
-                            <label for="mp3">MP3</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="m4a" />
-                            <label for="m4a">M4A</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="wav" />
-                            <label for="wav">WAV</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="mp4" />
-                            <label for="mp4">MP4</label>
-                        </p>
+                    <div class="file-path-wrapper">
+                        <label for="duplicator-path"></label><input class="file-path validate hoverable"
+                                                                    id="duplicator-path"
+                                                                    style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0"
+                                                                    placeholder="Folder to scan for duplicates"
+                                                                    type="text">
                     </div>
-                    <br>
-                    <br>
-                    <a onclick="checkFileTypes();" class="btn btn-large purple waves-effect waves-light hoverable">Search for matches</a>
-                    <br>
-                    <br>
-                    <hr>
-                    <br>
-                    <a onclick="openMatches();" id="match-btn" class="btn purple waves-effect waves-light hoverable">Matches</a>
                 </div>
-                <div id="organizer" style="display: none">
-                    <div class="file-field input-field">
-                        <div class="btn purple waves-effect waves-light hoverable" onclick="getDirectory();">
-                            <span>Folder</span>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" placeholder="Folder to organize" id="folder-path" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
-                        </div>
-                    </div>
-                    <div class="file-field input-field">
-                        <div class="btn purple waves-effect waves-light hoverable" onclick="getOrgDirectory();">
-                            <span>Folder</span>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" placeholder="Folder to deposit organized files in. (This should be an empty folder)" id="folder-path2" style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0" type="text">
-                        </div>
-                    </div>
-                    <h4>Folder Setup</h4>
-                    <div class="" style="display: inline-block;">
-                        Filetypes
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="mp31" />
-                            <label for="mp31">MP3</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="m4a1" />
-                            <label for="m4a1">M4A</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="wav1" />
-                            <label for="wav1">WAV</label>
-                        </p>
-                        <p>
-                            <input type="checkbox" class="purple hoverable" id="mp41" />
-                            <label for="mp41">MP4</label>
-                        </p>
-                    </div>
-                    <div>
-                        <p>Organization Options</p>
-                        <p style="display: inline-block; padding-left: 0px; padding-right: 50px;">
-                            <input type="checkbox" class="purple hoverable" onclick="option1();" id="option1" />
-                            <label for="option1" class="lineUp">Option 1 📁 (Recommended)</label>
-                        </p>
-                        <p style="display: inline-block; padding-left: 10px; padding-right: 75px;">
-                            <input type="checkbox" class="purple hoverable" onclick="option2();"  id="option2" />
-                            <label for="option2" class="lineUp">Option 2 📁 (Album Organization)</label>
-                        </p>
-                        <p style="display: inline-block; padding-left: 0px; padding-right: 20px;">
-                            <input type="checkbox" class="purple hoverable" onclick="option3();" id="option3" />
-                            <label for="option3" class="lineUp">Option 3 📁 (No Organization)</label>
-                        </p>
-                        <br>
-                        <div class="card medium" style="width: 250px; height: 220px; display: inline-block; margin-left: 20px; margin-right: 20px; padding: none">
-                            <div class="card-content left">
-                                <div class="fileTree">
-                                    <ul>
-                                        <li> Main folder
-                                            <ul>
-                                                <li>Artist1
-                                                    <ul>
-                                                        <li>Album1
-                                                            <ul>
-                                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                    </ul>
-                                                    <ul>
-                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoAlbumFile.mp3
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>Artist2
-                                                </li>
-                                                <li>Unknown Files
-                                                    <ul>
-                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoArtistFile.mp3
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card medium" style="width: 300px; height: 220px; display: inline-block; margin: 20px 20px 20px 20px; padding: none">
-                            <div class="card-content left">
-                                <div class="fileTree">
-                                    <ul>
-                                        <li> Main folder
-                                            <ul>
-                                                <li>Album1
-                                                    <ul>
-                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>Album2
-                                                </li>
-                                                <li>Unknown Files
-                                                    <ul>
-                                                        <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>NoAlbumFile.mp3
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card medium" style="width: 300px; height: 220px; display: inline-block; margin: 20px 20px 20px 20px; padding: none">
-                            <div class="card-content left">
-                                <div class="fileTree">
-                                    <ul>
-                                        <li> Main folder
-                                            <ul>
-                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
-                                                </li>
-                                            </ul>
-                                            <ul>
-                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
-                                                </li>
-                                            </ul>
-                                            <ul>
-                                                <li data-jstree='{"icon" : "glyphicon glyphicon-flash"}'>AlbumFile.mp3
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <a onclick="organizeFiles();" class="btn btn-large purple waves-effect waves-light hoverable">Organize Files</a>
-                    <br>
-                    <br>
-                    <hr>
-                    <br>
+                <h4>Criteria</h4>
+                <div class="" style="display: inline-block;">
+                    File Types
+                    <p>
+                        <label for="mp3">
+                            <input type="checkbox" checked class="purple hoverable" id="mp3"/>
+                            <span>MP3</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="m4a">
+                            <input type="checkbox" class="purple hoverable" id="m4a"/>
+                            <span>M4A</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="m4p">
+                            <input type="checkbox" class="purple hoverable" id="m4p"/>
+                            <span>M4P</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="mp4">
+                            <input type="checkbox" class="purple hoverable" id="mp4"/>
+                            <span>MP4</span>
+                        </label>
+                    </p>
                 </div>
+                <br>
+                <br>
+                <a id="dup-search" onclick="checkFileTypes();"
+                   class="btn btn-large purple m4pes-effect m4pes-light hoverable">Search
+                    for duplicates</a>
+                <br>
+                <br>
+                <hr>
+                <br>
+                <a onclick="openMatches();" disabled="true" id="match-btn"
+                   class="btn purple m4pes-effect m4pes-light hoverable">Matches</a>
             </div>
-        </div>
-        <div class="modal modal-fixed-footer" id="matches" style="width: 90%; height: 75%">
-            <div class="modal-content" style="padding: 6px 6px 6px 6px;">
-                <table class="striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Title</th>
-                            <th>Artist</th>
-                            <th>Album</th>
-                            <th>Path</th>
-                            <th>
-                                <input type="checkbox" class="filled-in purple" id="delete-all" onclick="checkAllForDelete();" />
-                                <label for="delete-all" class="text-black">Delete</label>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="file-table-body">
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect btn-flat" onclick="$('#menubar').prop('style', 'display: inline;');">Close</a>
-                <a class="modal-action red waves-effect btn-flat white-text waves-light" id="delete-btn">Delete 0 Files</a>
+            <div id="organizer">
+                <div class="file-field input-field">
+                    <div class="btn purple m4pes-effect m4pes-light hoverable" onclick="getOrgDirectory1();">
+                        <span>Folder</span>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <label for="organizer-path1"></label><input class="file-path validate"
+                                                                    placeholder="Folder to organize"
+                                                                    id="organizer-path1"
+                                                                    style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0"
+                                                                    type="text">
+                    </div>
+                </div>
+                <div class="file-field input-field">
+                    <div class="btn purple m4pes-effect m4pes-light hoverable" onclick="getOrgDirectory2();">
+                        <span>Folder</span>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <label for="organizer-path2"></label><input class="file-path validate"
+                                                                    placeholder="Folder to deposit organized files in. (This should be an empty folder)"
+                                                                    id="organizer-path2"
+                                                                    style="border-bottom: 1px solid #9c27b0; box-shadow: 0 1px 0 0 #9c27b0"
+                                                                    type="text">
+                    </div>
+                </div>
+                <h4>Folder Setup</h4>
+                <div class="" style="display: inline-block;">
+                    File Types
+                    <p>
+                        <label for="mp31">
+                            <input type="checkbox" class="purple" id="mp31"/>
+                            <span>MP3</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="m4a1">
+                            <input type="checkbox" class="purple" id="m4a1"/>
+                            <span>M4A</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="m4p1">
+                            <input type="checkbox" class="purple" id="m4p1"/>
+                            <span>M4P</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label for="mp41">
+                            <input type="checkbox" class="purple" id="mp41"/>
+                            <span>MP4</span>
+                        </label>
+                    </p>
+                </div>
+                <div>
+                    <p>Organization Options</p>
+                    <p style="display: inline-block; padding-left: 0; padding-right: 50px;">
+                        <label for="option1" class="lineUp">
+                            <input type="checkbox" class="purple hoverable" onclick="option1();" id="option1"/>
+                            <span>Option 1 📁 (Recommended)</span>
+                        </label>
+                    </p>
+                    <p style="display: inline-block; padding-left: 10px; padding-right: 75px;">
+                        <label for="option2" class="lineUp">
+                            <input type="checkbox" class="purple hoverable" onclick="option2();" id="option2"/>
+                            <span>Option 2 📁 (Album Organization)</span>
+                        </label>
+                    </p>
+                    <p style="display: inline-block; padding-left: 0; padding-right: 20px;">
+                        <label for="option3" class="lineUp">
+                            <input type="checkbox" class="purple hoverable" onclick="option3();" id="option3"/>
+                            <span>Option 3 📁 (No Organization)</span>
+                        </label>
+                    </p>
+                    <br>
+
+                </div>
+                <br>
+                <br>
+                <a onclick="organizeFiles();" class="btn btn-large purple m4pes-effect m4pes-light hoverable">Organize
+                    Files</a>
+                <br>
+                <br>
+                <hr>
+                <br>
             </div>
         </div>
     </div>
-    <footer>
-        <br>
-        <br>
-    </footer>
-    <script type="text/javascript">
-    $('#match-btn').prop('disabled', true);
-    $('.modal').modal();
-    $('#mp3').prop('checked', true);
-    var options = {
-        classname: '',
-        id: 'nano-bar',
-    };
-    var nanobar = new Nanobar(options);
-    $(function() {
-        $('.fileTree').jstree();
-    });
-    function openMatches() {
-        $('#menubar').prop('style', 'display: none;');
-        $('#matches').modal('open');  
-    }
-    </script>
+    <div class="modal modal-fixed-footer" id="matches" style="width: 90%; height: 75%">
+        <div class="modal-content" style="padding: 6px 6px 6px 6px;">
+            <table id="dup-table" class="striped">
+                <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Name</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Artist</th>
+                    <th onclick="sortTable(3)">Album</th>
+                    <th onclick="sortTable(4)">Path</th>
+                    <th>
+                        <label for="delete-all" class="text-black">
+                            <input type="checkbox" class="filled-in purple" id="delete-all"
+                                   onclick="checkAllForDelete();"/>
+                            <span>Delete</span>
+                        </label>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="file-table-body">
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close m4pes-effect btn-flat"
+               onclick="$('#menubar').prop('style', 'display: inline;');">Close</a>
+            <a class="modal-action red m4pes-effect btn-flat white-text m4pes-light" id="delete-btn">Delete 0 Files</a>
+        </div>
+    </div>
+</div>
+<footer>
+    <br>
+    <br>
+</footer>
 </body>
 
 </html>
