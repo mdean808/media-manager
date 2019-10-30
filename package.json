@@ -8,9 +8,7 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "electron-packager . --out dist",
-    "build": "electron-packager . --out dist",
-    "dist": "electron-packager . --out dist"
+    "pack": "electron-packager . --out dist --icon AppIcon.icns --overwrite"
   },
   "repository": {
     "type": "git",
