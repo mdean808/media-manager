@@ -1,5 +1,6 @@
 {
   "name": "media-manager",
+  "productName": "Media Manager",
   "version": "0.1.0",
   "author": "Unicorn808",
   "main": "main.js",
@@ -7,8 +8,9 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "pack": "electron-packager . --out dist",
+    "build": "electron-packager . --out dist",
+    "dist": "electron-packager . --out dist"
   },
   "repository": {
     "type": "git",
@@ -26,8 +28,7 @@
   },
   "devDependencies": {
     "electron": "latest",
-    "electron-builder": "^19.56.2",
-    "electron-builder-squirrel-windows": "^19.20.0"
+    "electron-packager": "^14.1.0"
   },
   "build": {
     "appId": "us.unicorn808.bbccodeconverter",

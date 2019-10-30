@@ -21,7 +21,7 @@ async function createWindow() {
 		},
 		title: 'Media Manager',
 		autoHideMenuBar: true,
-		icon: path.join(__dirname, 'icon.png')
+		icon: path.join(__dirname, 'AppIcon.icns')
 	});
 
 
