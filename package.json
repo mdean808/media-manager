@@ -8,7 +8,8 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "electron-packager . --out dist --icon AppIcon.icns --overwrite"
+    "pack-osx": "electron-packager . --out=dist --platform=darwin --icon=icons/icon.icns --overwrite",
+    "pack-win": "electron-packager . --out=dist --platform=win32 --icon=icons/icon.ico --overwrite"
   },
   "repository": {
     "type": "git",
