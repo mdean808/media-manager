@@ -25,7 +25,7 @@ async function createWindow() {
 	//mainWindow.setMenu(null);
 	// and load the index.html of the app.
 	await mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'index.html'),
+		pathname: path.join(__dirname, '/app/index.html'),
 		protocol: 'file:',
 		slashes: true
 	}));
@@ -42,11 +42,6 @@ async function createWindow() {
 	})
 }
 
-function selectDirectory() {
-	return dialog.showOpenDialog(mainWindow, {
-		properties: ['openDirectory']
-	})
-}
 
 exports.selectDirectory = function () {
 	return dialog.showOpenDialog(mainWindow, {

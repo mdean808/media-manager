@@ -1,0 +1,77 @@
+.btn-small {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 0.5rem;
+}
+
+body {
+    background-color: white;
+}
+
+.no-uppercase {
+    text-transform: none;
+}
+
+.m4pes-effect.m4pes-dark .m4pes-ripple {
+    background-color: rgba(255, 255, 255, 0.65);
+}
+
+.nanobar {
+    width: 100%;
+    height: 4px;
+    z-index: 9999;
+    top: 0
+}
+
+.bar {
+    width: 0;
+    height: 100%;
+    background: #9c27b0;
+}
+
+.purple:checked + label:before {
+    border-right: 2px solid #9c27b0;
+    /* You need to change the colour here */
+    border-bottom: 2px solid #9c27b0;
+}
+
+.tabs .tab a {
+    color: #9c27b0;
+}
+
+/*Black color to the text*/
+
+.tabs .tab a:hover {
+    color: #9c27b0;
+}
+
+.tabs .tab a:focus.active {
+    background-color: white;
+}
+
+/*Text color on hover*/
+
+.tabs .tab a.active {
+    color: #9c27b0;
+}
+
+/*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color: #9c27b0;
+}
+
+.lineUp {
+    display: inline-block;
+    margin: 10px 10px 10px 10px;
+}
+
+td {
+    height: 80px;
+}
+th {
+    cursor: pointer;
+}
+.hoverable {
+    transition: .3s all;
+}

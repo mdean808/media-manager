@@ -5,84 +5,12 @@
     <title>Music Manager</title>
     <meta charset="utf-8"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"
+    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"
           media="screen,projection"/>
-    <script type="text/javascript" src="./organize.js"></script>
-    <style>
-        .btn-small {
-            height: 24px;
-            line-height: 24px;
-            padding: 0 0.5rem;
-        }
-
-        body {
-            background-color: white;
-        }
-
-        .no-uppercase {
-            text-transform: none;
-        }
-
-        .m4pes-effect.m4pes-dark .m4pes-ripple {
-            background-color: rgba(255, 255, 255, 0.65);
-        }
-
-        .nanobar {
-            width: 100%;
-            height: 4px;
-            z-index: 9999;
-            top: 0
-        }
-
-        .bar {
-            width: 0;
-            height: 100%;
-            background: #9c27b0;
-        }
-
-        .purple:checked + label:before {
-            border-right: 2px solid #9c27b0;
-            /* You need to change the colour here */
-            border-bottom: 2px solid #9c27b0;
-        }
-
-        .tabs .tab a {
-            color: #9c27b0;
-        }
-
-        /*Black color to the text*/
-
-        .tabs .tab a:hover {
-            color: #9c27b0;
-        }
-
-        /*Text color on hover*/
-
-        .tabs .tab a.active {
-            color: #9c27b0;
-        }
-
-        /*Background and text color when a tab is active*/
-
-        .tabs .indicator {
-            background-color: #9c27b0;
-        }
-
-        .lineUp {
-            display: inline-block;
-            margin: 10px 10px 10px 10px;
-        }
-
-        td {
-            height: 80px;
-        }
-        th {
-            cursor: pointer;
-        }
-        .hoverable {
-            transition: .3s all;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="lib.js"></script>
+    <script type="text/javascript" src="duplicate.js"></script>
+    <script type="text/javascript" src="organize.js"></script>
 </head>
 
 <body>
@@ -90,7 +18,8 @@
     <div class="row">
         <div class="col s12 center">
             <h2>Music Manager</h2>
-            <ul class="tabs" id="menubar" style="z-index: 9999;">
+            <p>By Morgan Dean</p>
+            <ul class="tabs" id="menubar">
                 <li class="tab"><a href="#duplicates">Duplicates</a></li>
                 <li class="tab"><a href="#organizer">Organizer</a></li>
             </ul>
@@ -112,26 +41,26 @@
                 <div class="" style="display: inline-block;">
                     File Types
                     <p>
-                        <label for="mp3">
-                            <input type="checkbox" checked class="purple hoverable" id="mp3"/>
+                        <label for="mp3-dup">
+                            <input name="dup-filetypes" type="checkbox" checked class="purple hoverable" id="mp3-dup"/>
                             <span>MP3</span>
                         </label>
                     </p>
                     <p>
-                        <label for="m4a">
-                            <input type="checkbox" class="purple hoverable" id="m4a"/>
+                        <label for="m4a-dup">
+                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="m4a-dup"/>
                             <span>M4A</span>
                         </label>
                     </p>
                     <p>
-                        <label for="m4p">
-                            <input type="checkbox" class="purple hoverable" id="m4p"/>
+                        <label for="m4p-dup">
+                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="m4p-dup"/>
                             <span>M4P</span>
                         </label>
                     </p>
                     <p>
-                        <label for="mp4">
-                            <input type="checkbox" class="purple hoverable" id="mp4"/>
+                        <label for="mp4-dup">
+                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="mp4-dup"/>
                             <span>MP4</span>
                         </label>
                     </p>
@@ -177,26 +106,26 @@
                 <div class="" style="display: inline-block;">
                     File Types
                     <p>
-                        <label for="mp31">
-                            <input type="checkbox" class="purple" id="mp31"/>
+                        <label for="mp3-org">
+                            <input name="org-filetypes" type="checkbox" checked class="purple" id="mp3-org"/>
                             <span>MP3</span>
                         </label>
                     </p>
                     <p>
-                        <label for="m4a1">
-                            <input type="checkbox" class="purple" id="m4a1"/>
+                        <label for="m4a-org">
+                            <input name="org-filetypes" type="checkbox" class="purple" id="m4a-org"/>
                             <span>M4A</span>
                         </label>
                     </p>
                     <p>
-                        <label for="m4p1">
-                            <input type="checkbox" class="purple" id="m4p1"/>
+                        <label for="m4p-org">
+                            <input name="org-filetypes" type="checkbox" class="purple" id="m4p-org"/>
                             <span>M4P</span>
                         </label>
                     </p>
                     <p>
-                        <label for="mp41">
-                            <input type="checkbox" class="purple" id="mp41"/>
+                        <label for="mp4-org">
+                            <input name="org-filetypes" type="checkbox" class="purple" id="mp4-org"/>
                             <span>MP4</span>
                         </label>
                     </p>
@@ -205,20 +134,20 @@
                     <p>Organization Options</p>
                     <p style="display: inline-block; padding-left: 0; padding-right: 50px;">
                         <label for="option1" class="lineUp">
-                            <input type="checkbox" class="purple hoverable" onclick="option1();" id="option1"/>
-                            <span>Option 1 📁 (Recommended)</span>
+                            <input type="radio" checked name="options" class="purple hoverable" id="option1"/>
+                            <span>📁 Artist > Album > Song</span>
                         </label>
                     </p>
                     <p style="display: inline-block; padding-left: 10px; padding-right: 75px;">
                         <label for="option2" class="lineUp">
-                            <input type="checkbox" class="purple hoverable" onclick="option2();" id="option2"/>
-                            <span>Option 2 📁 (Album Organization)</span>
+                            <input type="radio" name="options" class="purple hoverable" id="option2"/>
+                            <span>📁 Album > Song</span>
                         </label>
                     </p>
                     <p style="display: inline-block; padding-left: 0; padding-right: 20px;">
                         <label for="option3" class="lineUp">
-                            <input type="checkbox" class="purple hoverable" onclick="option3();" id="option3"/>
-                            <span>Option 3 📁 (No Organization)</span>
+                            <input type="radio" name="options" class="purple hoverable" id="option3"/>
+                            <span>📁 Song</span>
                         </label>
                     </p>
                     <br>
@@ -226,7 +155,7 @@
                 </div>
                 <br>
                 <br>
-                <a onclick="organizeFiles();" class="btn btn-large purple m4pes-effect m4pes-light hoverable">Organize
+                <a onclick="organizeFiles();" id="org-search" class="btn btn-large purple m4pes-effect m4pes-light hoverable">Organize
                     Files</a>
                 <br>
                 <br>
@@ -248,7 +177,7 @@
                     <th>
                         <label for="delete-all" class="text-black">
                             <input type="checkbox" class="filled-in purple" id="delete-all"
-                                   onclick="checkAllForDelete();"/>
+                                   onclick="markAllForDelete();"/>
                             <span>Delete</span>
                         </label>
                     </th>
@@ -260,8 +189,8 @@
         </div>
         <div class="modal-footer">
             <a class="modal-action modal-close m4pes-effect btn-flat"
-               onclick="$('#menubar').prop('style', 'display: inline;');">Close</a>
-            <a class="modal-action red m4pes-effect btn-flat white-text m4pes-light" id="delete-btn">Delete 0 Files</a>
+               >Close</a>
+            <a class="modal-action red m4pes-effect btn-flat white-text m4pes-light" disabled id="delete-btn">Delete 0 Files</a>
         </div>
     </div>
 </div>
