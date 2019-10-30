@@ -103,8 +103,7 @@ async function getTagsForOrg(startPath, filters) {
 			let tags = await mm.parseFile(filePath);
 			tags = tags.common;
 
-			const fileName = filePath.replace(/^.*[\\\/]/g, '');
-			console.log(fileName, filePath);
+			let fileName = filePath.replace(/^.*[\\\/]/g, '');
 			// Make sure there's no incompatible characters in the paths
 			if (tags.artist) {
 				tags.artist = tags.artist.replace(/[^ (&a-zA-Z0-9+]/g, '-');
@@ -112,6 +111,10 @@ async function getTagsForOrg(startPath, filters) {
 			if (tags.album) {
 				tags.album = tags.album.replace(/[^ (&a-zA-Z0-9+]/g, '-');
 			}
+			if (document.getElementById('rename-org').checked && tags.title) {
+				fileName = `${tags.title}${path.extname(fileName)} (${Math.round(Math.random() * 10) / 10})`
+			}
+
 			const options = document.getElementsByName('options');
 
 			// Author > Album > Song
@@ -149,7 +152,7 @@ async function getTagsForOrg(startPath, filters) {
 			}
 
 			// Song
-			if (options[1].checked) {
+			if (options[2].checked) {
 				await fs.copyFile(filePath, `${orgDir}/${fileName}`);
 			}
 		}

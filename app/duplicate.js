@@ -21,19 +21,22 @@ async function getDupDirectory() {
 
 async function checkFileTypes() {
 	document.getElementById('dup-search').setAttribute('disabled', '');
+	document.getElementById('match-btn').setAttribute('disabled', '');
 	document.getElementById('dup-search').innerText = 'Searching...';
+	document.getElementById('file-table-body').innerHTML = '';
+	filesToDelete = [];
 	nanobar.go(10);
 	let extensions = [];
-	if (document.getElementById('mp4').checked) {
+	if (document.getElementById('mp4-dup').checked) {
 		extensions.push('.mp4')
 	}
-	if (document.getElementById('mp3').checked) {
+	if (document.getElementById('mp3-dup').checked) {
 		extensions.push('.mp3')
 	}
-	if (document.getElementById('m4a').checked) {
+	if (document.getElementById('m4a-dup').checked) {
 		extensions.push('.m4a')
 	}
-	if (document.getElementById('m4p').checked) {
+	if (document.getElementById('m4p-dup').checked) {
 		extensions.push('.m4p')
 	}
 	if (extensions.length === 0) {
@@ -71,7 +74,7 @@ async function checkFileTypes() {
 			'<td id="path-' + i + '">' + duplicates[i].filePath + '</td>' +
 			'<td>' +
 			'<label for="delete-check-' + i + '">' +
-			'<input type="checkbox" class="filled-in red" id="delete-check-' + i + '" onclick="markForDelete(this.id);"/>' +
+			'<input type="checkbox" name="delete-check" class="filled-in red" id="delete-check-' + i + '" onclick="markForDelete(this.id);"/>' +
 			'<span></span>' +
 			'</label>' +
 			'</td>' +
@@ -195,11 +198,11 @@ function sortTable(n) {
 
 function markForDelete(elem) {
 	if (document.getElementById(elem).checked) {
-		filesToDelete.push(duplicates[elem.split('-')[1]]);
+		filesToDelete.push(duplicates[elem.split('-')[2]]);
 		document.getElementById('delete-btn').innerHTML = "Delete " + filesToDelete.length + " files";
 		document.getElementById('delete-btn').removeAttribute('disabled');
 	} else if (filesToDelete.length > 0) {
-		filesToDelete.splice(elem.split('-')[1], 1);
+		filesToDelete.splice(elem.split('-')[2], 1);
 		document.getElementById('delete-btn').innerHTML = "Delete " + filesToDelete.length + " files";
 		document.getElementById('delete-btn').removeAttribute('disabled');
 	} else {
@@ -215,6 +218,7 @@ function markAllForDelete() {
 		for (i = 0; i <= filesToDelete.length; i++) {
 			$('#delete-check-' + i).prop('checked', true);
 		}
+		document.getElementById('delete-btn').removeAttribute('disabled');
 		document.getElementById('delete-btn').innerHTML = "Delete " + filesToDelete.length + " files";
 	} else {
 		for (i = 0; i <= filesToDelete.length; i++) {
@@ -224,4 +228,29 @@ function markAllForDelete() {
 		document.getElementById('delete-btn').innerHTML = "Delete 0 files";
 		document.getElementById('delete-btn').setAttribute('disabled', '');
 	}
+}
+
+async function deleteDuplicates() {
+	for (let i = 0; i < filesToDelete.length; i++) {
+		await fs.unlink(filesToDelete[i].filePath)
+			.then(() => {
+				document.getElementById('name-' + i).parentElement.remove();
+				duplicates.splice(duplicates.findIndex(dup => dup === filesToDelete[i]), 1)
+			})
+			.catch((e) => {
+				console.log(e);
+				const fileName = filesToDelete[i].filePath.replace(/^.*[\\\/]/g, '');
+				return Materialize.toast({
+					html: `There was an error deleting "${fileName}"`,
+					displayLength: 3000,
+					classes: 'rounded red'
+				})
+			});
+	}
+	Materialize.toast({html: `Deleted ${filesToDelete.length} duplicates.`, displayLength: 5000});
+	filesToDelete = [];
+	document.getElementById('delete-btn').innerHTML = "Delete 0 files";
+	document.getElementById('delete-btn').setAttribute('disabled', '');
+	document.getElementsByName('delete-check').forEach(elem => elem.removeAttribute('checked'));
+	Materialize.Modal.getInstance(document.getElementById('matches')).close();
 }

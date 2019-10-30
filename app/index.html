@@ -42,25 +42,25 @@
                     File Types
                     <p>
                         <label for="mp3-dup">
-                            <input name="dup-filetypes" type="checkbox" checked class="purple hoverable" id="mp3-dup"/>
+                            <input name="dup-filetypes" type="checkbox" checked class="filled-in" id="mp3-dup"/>
                             <span>MP3</span>
                         </label>
                     </p>
                     <p>
                         <label for="m4a-dup">
-                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="m4a-dup"/>
+                            <input name="dup-filetypes" type="checkbox" checked class="filled-in" id="m4a-dup"/>
                             <span>M4A</span>
                         </label>
                     </p>
                     <p>
                         <label for="m4p-dup">
-                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="m4p-dup"/>
+                            <input name="dup-filetypes" type="checkbox" checked class="filled-in" id="m4p-dup"/>
                             <span>M4P</span>
                         </label>
                     </p>
                     <p>
                         <label for="mp4-dup">
-                            <input name="dup-filetypes" type="checkbox" class="purple hoverable" id="mp4-dup"/>
+                            <input name="dup-filetypes" type="checkbox" checked class="filled-in" id="mp4-dup"/>
                             <span>MP4</span>
                         </label>
                     </p>
@@ -107,25 +107,25 @@
                     File Types
                     <p>
                         <label for="mp3-org">
-                            <input name="org-filetypes" type="checkbox" checked class="purple" id="mp3-org"/>
+                            <input name="org-filetypes" type="checkbox" checked class="filled-in" id="mp3-org"/>
                             <span>MP3</span>
                         </label>
                     </p>
                     <p>
                         <label for="m4a-org">
-                            <input name="org-filetypes" type="checkbox" class="purple" id="m4a-org"/>
+                            <input name="org-filetypes" type="checkbox" checked class="filled-in" id="m4a-org"/>
                             <span>M4A</span>
                         </label>
                     </p>
                     <p>
                         <label for="m4p-org">
-                            <input name="org-filetypes" type="checkbox" class="purple" id="m4p-org"/>
+                            <input name="org-filetypes" type="checkbox" checked class="filled-in" id="m4p-org"/>
                             <span>M4P</span>
                         </label>
                     </p>
                     <p>
                         <label for="mp4-org">
-                            <input name="org-filetypes" type="checkbox" class="purple" id="mp4-org"/>
+                            <input name="org-filetypes" type="checkbox" checked class="filled-in" id="mp4-org"/>
                             <span>MP4</span>
                         </label>
                     </p>
@@ -134,24 +134,29 @@
                     <p>Organization Options</p>
                     <p style="display: inline-block; padding-left: 0; padding-right: 50px;">
                         <label for="option1" class="lineUp">
-                            <input type="radio" checked name="options" class="purple hoverable" id="option1"/>
+                            <input type="radio" checked name="options" class="with-gap" id="option1"/>
                             <span>📁 Artist > Album > Song</span>
                         </label>
                     </p>
                     <p style="display: inline-block; padding-left: 10px; padding-right: 75px;">
                         <label for="option2" class="lineUp">
-                            <input type="radio" name="options" class="purple hoverable" id="option2"/>
+                            <input type="radio" name="options" class="with-gap" id="option2"/>
                             <span>📁 Album > Song</span>
                         </label>
                     </p>
                     <p style="display: inline-block; padding-left: 0; padding-right: 20px;">
                         <label for="option3" class="lineUp">
-                            <input type="radio" name="options" class="purple hoverable" id="option3"/>
+                            <input type="radio" name="options" class="with-gap" id="option3"/>
                             <span>📁 Song</span>
                         </label>
                     </p>
                     <br>
-
+                    <p>
+                        <label for="rename-org">
+                            <input type="checkbox" checked class="filled-in" id="rename-org"/>
+                            <span>Rename Files to Song Title</span>
+                        </label>
+                    </p>
                 </div>
                 <br>
                 <br>
@@ -159,7 +164,6 @@
                     Files</a>
                 <br>
                 <br>
-                <hr>
                 <br>
             </div>
         </div>
@@ -190,7 +194,7 @@
         <div class="modal-footer">
             <a class="modal-action modal-close m4pes-effect btn-flat"
                >Close</a>
-            <a class="modal-action red m4pes-effect btn-flat white-text m4pes-light" disabled id="delete-btn">Delete 0 Files</a>
+            <a onclick="deleteDuplicates()" class="modal-action red m4pes-effect btn-flat white-text m4pes-light" disabled id="delete-btn">Delete 0 Files</a>
         </div>
     </div>
 </div>

@@ -75,3 +75,16 @@ th {
 .hoverable {
     transition: .3s all;
 }
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    border: 2px solid #9c27b0;
+    background-color: #9c27b0;
+}
+
+[type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+    border: 2px solid #9c27b0;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+    background-color: #9c27b0;
+}
