@@ -1,15 +1,17 @@
 {
   "name": "media-manager",
   "productName": "Media Manager",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "author": "Unicorn808",
   "main": "main.js",
   "description": "Simple yet powerful music library manager",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack-osx": "electron-packager . --out=dist --platform=darwin --icon=icons/icon.icns --overwrite",
-    "pack-win": "electron-packager . --out=dist --platform=win32 --icon=icons/icon.ico --overwrite"
+    "pack": "electron-forge make"
+  },
+  "config": {
+    "forge": "./forge.config.js"
   },
   "repository": {
     "type": "git",
@@ -26,8 +28,11 @@
     "nanobar": "^0.4.2"
   },
   "devDependencies": {
+    "@electron-forge/maker-dmg": "^6.0.0-beta.45",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.45",
+    "@electron-forge/maker-zip": "^6.0.0-beta.45",
     "electron": "latest",
-    "electron-packager": "^14.1.0"
+    "electron-forge": "^5.2.4"
   },
   "build": {
     "appId": "us.unicorn808.bbccodeconverter",
