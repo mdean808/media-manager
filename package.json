@@ -3,7 +3,7 @@
   "productName": "Media Manager",
   "version": "1.0.1",
   "author": "Unicorn808",
-  "main": "main.js",
+  "main": "app/main.js",
   "description": "Simple yet powerful music library manager",
   "scripts": {
     "start": "electron .",
@@ -29,19 +29,9 @@
   },
   "devDependencies": {
     "@electron-forge/maker-dmg": "^6.0.0-beta.45",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.45",
     "@electron-forge/maker-zip": "^6.0.0-beta.45",
     "electron": "latest",
-    "electron-forge": "^5.2.4"
-  },
-  "build": {
-    "appId": "us.unicorn808.bbccodeconverter",
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "category": "Development"
-    }
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "latest"
   }
 }

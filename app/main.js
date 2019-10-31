@@ -12,6 +12,8 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+if (require('electron-squirrel-startup')) return app.quit();
+
 
 async function createWindow() {
 	// Create the browser window.
