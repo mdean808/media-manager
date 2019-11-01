@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/Unicorn808/itunes-organizer#readme",
   "dependencies": {
-    "electron-compile": "^6.4.4",
     "jquery": "^3.4.1",
     "materialize-css": "^1.0.0",
     "music-metadata": "^4.8.2",
@@ -31,8 +30,8 @@
   "devDependencies": {
     "@electron-forge/maker-dmg": "^6.0.0-beta.45",
     "@electron-forge/maker-zip": "^6.0.0-beta.45",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.45",
     "electron": "latest",
-    "electron-forge": "^5.2.4"
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "latest"
   }
 }
