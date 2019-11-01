@@ -111,9 +111,6 @@ async function getTagsForOrg(startPath, filters) {
 			if (tags.album) {
 				tags.album = tags.album.replace(/[^ (&a-zA-Z0-9+]/g, '-');
 			}
-			if (document.getElementById('rename-org').checked && tags.title) {
-				fileName = `${tags.title}${path.extname(fileName)} (${Math.round(Math.random() * 10) / 10})`
-			}
 
 			const options = document.getElementsByName('options');
 
@@ -121,38 +118,43 @@ async function getTagsForOrg(startPath, filters) {
 			if (options[0].checked) {
 				if (tags.artist && tags.album) {
 					const destinationPath = `${orgDir}/${tags.artist}/${tags.album}`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 				} else if (tags.artist) {
 					const destinationPath = `${orgDir}/${tags.artist}/Unknown Album`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 
 				} else if (tags.album) {
 					const destinationPath = `${orgDir}/Unknown Artist/${tags.album}`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 
 				} else {
 					const destinationPath = `${orgDir}/Unknown Artist/Unknown Album`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 				}
 			}
 			// Album > Song
 			if (options[1].checked) {
 				if (tags.album) {
 					const destinationPath = `${orgDir}/${tags.album}`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 
 				} else if (tags.artist) {
 					const destinationPath = `${orgDir}/Unknown Album/${tags.artist}`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 
 				} else {
 					const destinationPath = `${orgDir}/Unknown Album`;
-					await moveFile(filePath, destinationPath, fileName);
+					await moveFile(filePath, destinationPath, fileName, tags);
 				}
 			}
 
 			// Song
 			if (options[2].checked) {
+				if (document.getElementById('rename-org').checked) {
+					await fs.lstat(`${orgDir}/${fileName}/`).then(() => {
+						fileName = `${tags.title} (${Math.round(Math.random() * 10) / 10})${path.extname(fileName)}`
+					})
+				}
 				await fs.copyFile(filePath, `${orgDir}/${fileName}`);
 			}
 		}
@@ -175,7 +177,22 @@ function enableFileTypes() {
 	document.getElementsByName('org-filetypes').forEach(elem => elem.removeAttribute('disabled'));
 }
 
-async function moveFile(filePath, destinationPath, fileName) {
+async function moveFile(filePath, destinationPath, fileName, tags) {
+	if (document.getElementById('rename-org').checked) {
+		if (tags.title) {
+			await fs.lstat(destinationPath + '/' + `${tags.title}${path.extname(fileName)}`).then(() => {
+				fileName = `${tags.title} (${Math.round(Math.random() * 10) / 10})${path.extname(fileName)}`;
+			}).catch(() => {
+				fileName = `${tags.title}${path.extname(fileName)}`;
+			});
+		} else {
+			await fs.lstat(destinationPath + '/' + `Unknown Song${path.extname(fileName)}`).then(() => {
+				fileName = `Unknown Song (${Math.round(Math.random() * 10) / 10})${path.extname(fileName)}`
+			}).catch(() => {
+				fileName = `Unknown Song${path.extname(fileName)}`
+			});
+		}
+	}
 	fs.access(destinationPath)
 		.then(async () => {
 			await fs.copyFile(filePath, `${destinationPath}/${fileName}`);
