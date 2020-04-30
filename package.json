@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Unicorn808/itunes-organizer#readme",
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "materialize-css": "^1.0.0",
     "music-metadata": "^4.8.2",
     "nanobar": "^0.4.2"
